@@ -450,6 +450,23 @@ body.dark .feat{background:#16223D;border-color:#2A3654}
 body.dark .feat-hi{background:#1A2748;border-color:#3A56A0}
 body.dark .feat p{color:#9AA6BF}
 
+/* ===== FINITION RESPONSIVE : tarifs + fonctionnalités ===== */
+@media(max-width:560px){
+  #tarifs h2.sec,#offres h2.sec{font-size:1.5rem;line-height:1.22}
+  #offres .sub,#tarifs .sub{font-size:.95rem}
+  .plans{gap:26px}
+  .plan.featured{margin-top:6px}
+  .plans-note{font-size:.86rem}
+  .feat-grid{gap:14px;margin-top:24px}
+  .feat-ic{width:44px;height:44px}
+}
+@media(max-width:400px){
+  .plan{padding:24px 18px}
+  .feat{padding:20px 18px}
+  .plan li,.feat p{font-size:.88rem}
+  .price{font-size:1.7rem}
+}
+
 /* ===== CREDO (comment ça marche) ===== */
 .credo-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;margin-top:34px;align-items:stretch}
 @media(max-width:900px){.credo-grid{grid-template-columns:1fr}}
