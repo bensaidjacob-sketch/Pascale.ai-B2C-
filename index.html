@@ -93,7 +93,7 @@ h2.sec{font-size:clamp(1.6rem,3.2vw,2.2rem);font-weight:800}
 p.sub{color:var(--muted);margin-top:10px;max-width:640px}
 
 /* NAV */
-nav{position:sticky;top:0;background:rgba(253,252,248,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:50}
+nav{position:sticky;top:0;background:rgba(253,252,248,.97);border-bottom:1px solid var(--line);z-index:62}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
 .logo{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.3rem;color:var(--blue);text-decoration:none;cursor:pointer}
 .logo span{color:var(--coral)}
@@ -102,17 +102,31 @@ nav{position:sticky;top:0;background:rgba(253,252,248,.94);backdrop-filter:blur(
 .nav-links a:hover{color:var(--blue)}
 .nav-login{color:var(--blue)!important;border:2px solid var(--blue);padding:7px 16px;border-radius:8px;white-space:nowrap}
 .nav-cta{background:var(--coral);color:#fff!important;padding:9px 18px;border-radius:8px;white-space:nowrap}
-@media(max-width:860px){.nav-links a:not(.nav-cta):not(.nav-login){display:none}.nav-links{gap:10px}}
-@media(max-width:560px){
-  .logo{font-size:1.12rem}
-  .nav-in{gap:8px}
-  .nav-links{gap:7px}
-  .nav-login{padding:6px 11px;font-size:.83rem}
-  .nav-cta{padding:7px 12px;font-size:.83rem}
-  .nav-cta-x{display:none}
+.nav-actions{display:flex;align-items:center;gap:12px}
+/* Bouton burger */
+.burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:0;background:transparent;border:0;cursor:pointer;color:var(--ink);flex-shrink:0}
+body.dark .burger{color:#EDF1F8}
+.burger span{display:block;width:24px;height:2.5px;border-radius:2px;background:currentColor;margin:0 auto;transition:transform .25s ease,opacity .2s ease}
+/* Voile d'arrière-plan */
+.nav-overlay{position:fixed;inset:0;background:rgba(8,12,22,.5);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;z-index:60}
+body.nav-open .nav-overlay{opacity:1;visibility:visible}
+@media(max-width:860px){
+  .burger{display:flex}
+  body.nav-open{overflow:hidden}
+  /* animation ☰ -> ✕ */
+  body.nav-open .burger span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+  body.nav-open .burger span:nth-child(2){opacity:0}
+  body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+  /* Panneau latéral (sous la barre de 64px) */
+  .nav-links{position:fixed;top:64px;right:0;bottom:0;width:min(82vw,320px);flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;background:var(--paper);border-left:1px solid var(--line);padding:22px 20px 28px;transform:translateX(105%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-16px 0 44px rgba(0,0,0,.28);overflow-y:auto;z-index:61}
+  body.nav-open .nav-links{transform:none}
+  .nav-links a{display:block;padding:15px 6px;font-size:1.05rem;font-weight:600;border-bottom:1px solid var(--line);color:var(--ink)}
+  body.dark .nav-links a{color:#EDF1F8}
+  .nav-links .nav-login{margin-top:16px;text-align:center;border:2px solid var(--blue);border-radius:10px;padding:13px;font-size:1rem}
 }
-@media(max-width:340px){
-  .nav-login{display:none}
+@media(max-width:480px){
+  .logo{font-size:1.15rem}
+  .nav-cta-x{display:none}
 }
 
 /* VUES */
@@ -566,17 +580,21 @@ body.dark .faq-q{color:#EDF1F8}
 <nav>
   <div class="wrap nav-in">
     <a class="logo" onclick="show('accueil')"><span>P</span>ascale.ai</a>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a onclick="show('accueil');setTimeout(function(){document.getElementById('methode').scrollIntoView()},60)">Comment ça marche</a>
       <a onclick="show('accueil');setTimeout(function(){document.getElementById('offres').scrollIntoView()},60)">Les fonctionnalités</a>
       <a onclick="show('accueil');setTimeout(function(){document.getElementById('tarifs').scrollIntoView()},60)">Tarifs</a>
       <a onclick="show('accueil');setTimeout(function(){document.getElementById('faq').scrollIntoView()},60)">FAQ</a>
       <a onclick="show('parents')">Parents</a>
       <a class="nav-login" onclick="show('connexion')">Connexion</a>
+    </div>
+    <div class="nav-actions">
       <a class="nav-cta" onclick="show('inscription')">Essai gratuit<span class="nav-cta-x">&nbsp;7 jours</span></a>
+      <button class="burger" id="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks" onclick="toggleMenu()"><span></span><span></span><span></span></button>
     </div>
   </div>
 </nav>
+<div class="nav-overlay" id="navOverlay" onclick="closeMenu()" aria-hidden="true"></div>
 
 <!-- ================= VUE ACCUEIL ================= -->
 <div class="view on" id="v-accueil">
@@ -1172,6 +1190,20 @@ function forgot(m){
 }
 
 function toggleTheme(){}
+
+/* ===== MENU BURGER (mobile) ===== */
+function toggleMenu(){
+  var open=document.body.classList.toggle('nav-open');
+  var b=document.getElementById('burger');
+  if(b){b.setAttribute('aria-expanded',open?'true':'false');}
+}
+function closeMenu(){
+  document.body.classList.remove('nav-open');
+  var b=document.getElementById('burger');
+  if(b){b.setAttribute('aria-expanded','false');}
+}
+document.querySelectorAll('nav a').forEach(function(a){a.addEventListener('click',closeMenu);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeMenu();}});
 
 function toggleFaq(btn){
   var item=btn.parentElement;
