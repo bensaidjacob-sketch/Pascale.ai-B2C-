@@ -380,19 +380,28 @@ body.dark footer{background:#070D19}
 /* ===== RESPONSIVE (mobile) ===== */
 @media(max-width:900px){
   section{padding:48px 0}
-  .hero{padding:40px 0 52px}
+  .hero{padding:18px 0 44px}
+  .hero .heb{margin-bottom:12px}
   /* Sur mobile : le titre d'abord, le robot et la signature ensuite */
-  .hero-grid{gap:30px}
+  .hero-grid{gap:18px}
   .hero-grid > .hero-visual{order:1}
-  .hero-grid > div:not(.hero-visual){order:2}
+  .hero-grid > div:not(.hero-visual){order:2;display:flex;flex-direction:column}
+  .hero .heb{order:1}
+  .hero h1{order:2}
+  .hero-ctas{order:3;margin-top:4px}
+  .hero .hero-ctas + small{order:4}
+  .hero p.lead{order:5;margin-top:18px}
+  .hero .classes{order:6}
   .hero h1{font-size:clamp(1.9rem,8vw,2.4rem)}
   .hero p.lead{font-size:.98rem}
   .hero-ctas .btn{width:100%;text-align:center}
   .classes{gap:6px;flex-wrap:wrap;overflow-x:visible}.classes span.c{padding:4px 9px;font-size:.74rem}.classes .lbl{font-size:.76rem;width:100%;margin-bottom:2px}
-  .jmf-float{margin-top:2px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px 18px 18px;max-width:420px}
-  .jmf-float img{width:54px;height:54px;border-width:3px}
-  .jmf-float b{font-size:1rem}
-  .jmf-float .qt{font-size:.9rem}
+  .jmf-float{margin-top:0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 15px 13px;max-width:420px}
+  .jmf-float img{width:48px;height:48px;border-width:3px}
+  .jmf-float b{font-size:.98rem}
+  .jmf-float .fh{margin-bottom:8px}
+  .jmf-float .qt{font-size:.88rem;line-height:1.45}
+  .jmf-float .xp{margin-top:8px}
   .final-jmf{display:none!important}
   .trust .wrap{gap:14px;font-size:.85rem;flex-direction:column;align-items:center;text-align:center}
   .grid3{gap:14px}
@@ -410,7 +419,7 @@ body.dark footer{background:#070D19}
 }
 @media(max-width:480px){
   .wrap{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
-  .hero-visual img.robot{width:min(240px,66vw)}
+  .hero-visual img.robot{width:min(188px,50vw)}
   .price{font-size:1.8rem}
   .tiles{grid-template-columns:1fr}
 }
