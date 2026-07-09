@@ -72,9 +72,9 @@ function toggleFaq(btn){
   --seyes:rgba(37,99,235,.07);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{overflow-x:clip}
+html{overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:76px}
 img,video{max-width:100%}
-body{font-family:'Instrument Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;overflow-x:clip}
+body{font-family:'Instrument Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;overflow-x:clip;-webkit-tap-highlight-color:rgba(37,99,235,.15)}
 h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;line-height:1.15}
 .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
 .eyebrow{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:10px}
@@ -118,7 +118,7 @@ body.nav-open .nav-overlay{opacity:1;visibility:visible}
   body.nav-open .burger span:nth-child(2){opacity:0}
   body.nav-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
   /* Panneau latéral (sous la barre de 64px) */
-  .nav-links{position:fixed;top:64px;right:0;bottom:0;width:min(82vw,320px);flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;background:var(--paper);border-left:1px solid var(--line);padding:22px 20px 28px;transform:translateX(105%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-16px 0 44px rgba(0,0,0,.28);overflow-y:auto;z-index:61}
+  .nav-links{position:fixed;top:64px;right:0;bottom:0;width:min(82vw,320px);flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;background:var(--paper);border-left:1px solid var(--line);padding:22px max(20px,env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) 20px;transform:translateX(105%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-16px 0 44px rgba(0,0,0,.28);overflow-y:auto;z-index:61}
   body.nav-open .nav-links{transform:none}
   .nav-links a{display:block;padding:15px 6px;font-size:1.05rem;font-weight:600;border-bottom:1px solid var(--line);color:var(--ink)}
   body.dark .nav-links a{color:#EDF1F8}
@@ -400,12 +400,12 @@ body.dark footer{background:#070D19}
   footer .wrap{flex-direction:column;text-align:center;gap:8px}
   .formshell{padding:28px 16px 56px}
   .fcardw{padding:24px 20px}
-  .dashwrap{padding:20px 0 96px}
+  .dashwrap{padding:20px 0 calc(96px + env(safe-area-inset-bottom))}
   .split2 .chatwin{min-height:420px}
   .hello h2{font-size:1.35rem}
 }
 @media(max-width:480px){
-  .wrap{padding:0 16px}
+  .wrap{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
   .hero-visual img.robot{width:min(240px,78vw)}
   .price{font-size:1.8rem}
   .tiles{grid-template-columns:1fr}
@@ -506,9 +506,10 @@ body.dark .faq-item{background:#16223D;border-color:#2A3654}
 body.dark .faq-q{color:#EDF1F8}
 .faq-q .chev{transition:transform .2s;flex-shrink:0;color:var(--blue)}
 .faq-item.open .faq-q .chev{transform:rotate(180deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;color:var(--muted);font-size:.95rem}
-.faq-item.open .faq-a{max-height:300px}
-.faq-a div{padding:0 20px 18px}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease;color:var(--muted);font-size:.95rem}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+.faq-a > div{overflow:hidden;min-height:0}
+.faq-a p{margin:0;padding:0 20px 18px}
 
 /* ===== PAIEMENT STRIPE ===== */
 .stripe-box{border:1px solid var(--line);border-radius:14px;padding:16px;margin:18px 0 14px;background:rgba(255,255,255,.02)}
@@ -578,6 +579,21 @@ body.dark .faq-q{color:#EDF1F8}
 .tr-row{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:6px}
 .tr-row b{font-family:'Bricolage Grotesque'}
 .tr-note{font-size:.78rem;color:var(--muted);margin-top:8px;border-top:1px solid rgba(255,255,255,.08);padding-top:8px}
+
+/* ===== CHECKOUT : panneau droit toujours clair (lisible même en thème sombre) ===== */
+body.dark .sk-right{background:#fff;color:#16223D}
+body.dark .sk-form h2{color:#16223D}
+body.dark .sk-form label,body.dark .sk-note,body.dark .sk-foot,body.dark .sk-links a{color:#5B6478}
+body.dark .sk-right input,body.dark .sk-right select{background:#fff;border-color:#E4E9F2;color:#16223D}
+body.dark .sk-right input::placeholder{color:#9AA6BF}
+body.dark .sk-card,body.dark .sk-card input,body.dark .sk-card-num,body.dark .sk-card-row input:first-child,body.dark .sk-foot{border-color:#E4E9F2}
+
+/* ===== iOS : empêcher le zoom auto au focus d'un champ (police < 16px). Placé en fin de feuille pour primer sur les règles précédentes. ===== */
+@media(max-width:600px){
+  input,select,textarea,
+  .sk-form input,.sk-form select,
+  .stripe-card input{font-size:16px}
+}
 </style>
 </head>
 <body class="dark">
@@ -812,27 +828,27 @@ body.dark .faq-q{color:#EDF1F8}
       <div class="faq-list">
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">Est-ce que Pascale remplace un professeur ?<span class="chev">⌄</span></button>
-          <div class="faq-a"><div>Non, et ce n'est pas le but. Pascale est un accompagnement complémentaire : un prof particulier disponible à toute heure pour reprendre une notion, s'entraîner et préparer un contrôle. Les cours sont écrits par de vrais enseignants, mais rien ne remplace la classe — Pascale la prolonge à la maison.</div></div>
+          <div class="faq-a"><div><p>Non, et ce n'est pas le but. Pascale est un accompagnement complémentaire : un prof particulier disponible à toute heure pour reprendre une notion, s'entraîner et préparer un contrôle. Les cours sont écrits par de vrais enseignants, mais rien ne remplace la classe — Pascale la prolonge à la maison.</p></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">Et si mon enfant n'accroche pas ?<span class="chev">⌄</span></button>
-          <div class="faq-a"><div>Vous avez 7 jours d'essai gratuit, sans aucun prélèvement, pour tester avec votre enfant. Si ce n'est pas fait pour lui, vous n'êtes prélevé de rien. Et la formule sans engagement se résilie en 2 clics, à tout moment.</div></div>
+          <div class="faq-a"><div><p>Vous avez 7 jours d'essai gratuit, sans aucun prélèvement, pour tester avec votre enfant. Si ce n'est pas fait pour lui, vous n'êtes prélevé de rien. Et la formule sans engagement se résilie en 2 clics, à tout moment.</p></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">En quoi c'est différent de ChatGPT ?<span class="chev">⌄</span></button>
-          <div class="faq-a"><div>Une IA généraliste répond à tout… parfois n'importe quoi. Pascale ne travaille que sur les programmes officiels de l'Éducation nationale, dans un cadre défini et validé par des enseignants. Elle connaît la bonne réponse, sans réponse fantaisiste ni hors-programme.</div></div>
+          <div class="faq-a"><div><p>Une IA généraliste répond à tout… parfois n'importe quoi. Pascale ne travaille que sur les programmes officiels de l'Éducation nationale, dans un cadre défini et validé par des enseignants. Elle connaît la bonne réponse, sans réponse fantaisiste ni hors-programme.</p></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">Les données de mon enfant sont-elles protégées ?<span class="chev">⌄</span></button>
-          <div class="faq-a"><div>Oui. Les données sont hébergées en Europe et traitées conformément au RGPD. Nous ne revendons jamais aucune donnée et aucune publicité n'est diffusée. Le détail est dans notre politique de confidentialité.</div></div>
+          <div class="faq-a"><div><p>Oui. Les données sont hébergées en Europe et traitées conformément au RGPD. Nous ne revendons jamais aucune donnée et aucune publicité n'est diffusée. Le détail est dans notre politique de confidentialité.</p></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">Quels niveaux et quelles matières sont couverts ?<span class="chev">⌄</span></button>
-          <div class="faq-a"><div>Tout le programme officiel, de la 6e au supérieur, dans toutes les matières. Un seul abonnement donne accès à l'ensemble : pas de supplément par matière.</div></div>
+          <div class="faq-a"><div><p>Tout le programme officiel, de la 6e au supérieur, dans toutes les matières. Un seul abonnement donne accès à l'ensemble : pas de supplément par matière.</p></div></div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">Combien ça coûte vraiment ?<span class="chev">⌄</span></button>
-          <div class="faq-a"><div>14,99 €/mois sans engagement, ou 119,88 € pour 12 mois (soit 9,99 €/mois, 60 € d'économie). Dans les deux cas : 7 jours gratuits d'abord, et l'accès complet à la plateforme. C'est moins cher qu'une seule heure de cours particulier classique.</div></div>
+          <div class="faq-a"><div><p>14,99 €/mois sans engagement, ou 119,88 € pour 12 mois (soit 9,99 €/mois, 60 € d'économie). Dans les deux cas : 7 jours gratuits d'abord, et l'accès complet à la plateforme. C'est moins cher qu'une seule heure de cours particulier classique.</p></div></div>
         </div>
       </div>
     </div>
