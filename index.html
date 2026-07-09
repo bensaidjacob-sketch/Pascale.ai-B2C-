@@ -103,6 +103,8 @@ nav{position:sticky;top:0;background:rgba(253,252,248,.97);border-bottom:1px sol
 .nav-login{color:var(--blue)!important;border:2px solid var(--blue);padding:7px 16px;border-radius:8px;white-space:nowrap}
 .nav-cta{background:var(--coral);color:#fff!important;padding:9px 18px;border-radius:8px;white-space:nowrap}
 .nav-actions{display:flex;align-items:center;gap:12px}
+.nav-login-m{display:none;color:var(--blue);border:2px solid var(--blue);padding:6px 13px;border-radius:8px;white-space:nowrap;font-weight:600;font-size:.85rem;text-decoration:none;cursor:pointer}
+body.dark .nav-login-m{color:#7EA6FF;border-color:#2563EB}
 /* Bouton burger */
 .burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:0;background:transparent;border:0;cursor:pointer;color:var(--ink);flex-shrink:0}
 body.dark .burger{color:#EDF1F8}
@@ -112,6 +114,9 @@ body.dark .burger{color:#EDF1F8}
 body.nav-open .nav-overlay{opacity:1;visibility:visible}
 @media(max-width:860px){
   .burger{display:flex}
+  .nav-login-m{display:inline-block}
+  .nav-cta{display:none}
+  .nav-links .nav-login{display:none}
   body.nav-open{overflow:hidden}
   /* animation ☰ -> ✕ */
   body.nav-open .burger span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
@@ -384,24 +389,19 @@ body.dark footer{background:#070D19}
   .hero .heb{margin-bottom:12px}
   /* Sur mobile : le titre d'abord, le robot et la signature ensuite */
   .hero-grid{gap:18px}
-  .hero-grid > .hero-visual{order:1}
-  .hero-grid > div:not(.hero-visual){order:2;display:flex;flex-direction:column}
+  .hero-grid > .hero-visual{order:2}
+  .hero-grid > div:not(.hero-visual){order:1;display:flex;flex-direction:column}
   .hero .heb{order:1}
   .hero h1{order:2}
-  .hero-ctas{order:3;margin-top:4px}
-  .hero .hero-ctas + small{order:4}
-  .hero p.lead{order:5;margin-top:18px}
-  .hero .classes{order:6}
+  .hero p.lead{order:3;margin-top:14px}
+  .hero-ctas{order:4;margin-top:20px}
+  .hero .hero-ctas + small{order:5}
+  .hero .classes{order:6;margin-top:18px}
   .hero h1{font-size:clamp(1.9rem,8vw,2.4rem)}
   .hero p.lead{font-size:.98rem}
   .hero-ctas .btn{width:100%;text-align:center}
   .classes{gap:6px;flex-wrap:wrap;overflow-x:visible}.classes span.c{padding:4px 9px;font-size:.74rem}.classes .lbl{font-size:.76rem;width:100%;margin-bottom:2px}
-  .jmf-float{margin-top:0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 15px 13px;max-width:420px}
-  .jmf-float img{width:48px;height:48px;border-width:3px}
-  .jmf-float b{font-size:.98rem}
-  .jmf-float .fh{margin-bottom:8px}
-  .jmf-float .qt{font-size:.88rem;line-height:1.45}
-  .jmf-float .xp{margin-top:8px}
+  .jmf-float{display:none}
   .final-jmf{display:none!important}
   .trust .wrap{gap:14px;font-size:.85rem;flex-direction:column;align-items:center;text-align:center}
   .grid3{gap:14px}
@@ -419,7 +419,7 @@ body.dark footer{background:#070D19}
 }
 @media(max-width:480px){
   .wrap{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
-  .hero-visual img.robot{width:min(188px,50vw)}
+  .hero-visual img.robot{width:min(240px,64vw)}
   .price{font-size:1.8rem}
   .tiles{grid-template-columns:1fr}
 }
@@ -624,6 +624,7 @@ body.dark .sk-card,body.dark .sk-card input,body.dark .sk-card-num,body.dark .sk
     </div>
     <div class="nav-actions">
       <a class="nav-cta" onclick="show('inscription')">Essai gratuit<span class="nav-cta-x">&nbsp;7 jours</span></a>
+      <a class="nav-login-m" onclick="show('connexion')">Connexion</a>
       <button class="burger" id="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks" onclick="toggleMenu()"><span></span><span></span><span></span></button>
     </div>
   </div>
